@@ -1,0 +1,30 @@
+import sqlite3
+
+# Connect to SQLite database (or create it if it doesn't exist)
+# conn = sqlite3.connect('flask_crud.db')
+# cur = conn.cursor()
+
+# Create the "users" table
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL
+    )
+''')
+
+# Create the "tasks" table
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        description TEXT,
+        status TEXT DEFAULT 'new',
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+''')
+
+# conn.commit()
+# conn.close()
+# print("Database and tables 'users' and 'tasks' created.")
