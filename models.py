@@ -18,4 +18,4 @@ class Task(Base):
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     title = Column(String, nullable=False)
     description = Column(Text)
-    status = Column(String, default='new')
+    status = Column(String)

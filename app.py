@@ -78,7 +78,7 @@ def add_task():
     db.add(task)
     db.commit()
     flash("Task added successfully")
-    return redirect(url_for('home'))
+    return redirect(url_for('get_all_task', user_id=user_id))
 
 
 @app.route('/update_task', methods=['POST'])
@@ -89,23 +89,28 @@ def update_task():
         task.title = request.form['title']
         task.description = request.form['description']
         task.status = request.form['status']
+        user_id = task.user_id  # Get user_id before committing
         db.commit()
         flash("Task updated successfully")
+        return redirect(url_for('get_all_task', user_id=user_id))
     else:
         flash("Task not found")
-    return redirect(url_for('home'))
+        return redirect(url_for('home'))
 
 
 @app.route('/delete_task/<int:task_id>')
 def delete_task(task_id):
     task = db.query(Task).get(task_id)
     if task:
+        user_id = task.user_id  # Capture before deletion
         db.delete(task)
         db.commit()
         flash("Task deleted successfully")
+        return redirect(url_for('get_all_task', user_id=user_id))
     else:
         flash("Task not found")
-    return redirect(url_for('home'))
+        return redirect(url_for('home'))
+
 
 
 if __name__ == '__main__':
